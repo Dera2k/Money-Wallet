@@ -16,18 +16,21 @@ interface Config {
   adjutor: {
     apiUrl: string;
   };
+  jwt: {
+    secret: string;
+    expiresIn: string;
+  }
 }
 
 const validateConfig = () => {
-  const required = ["DB_HOST", "DB_USER", "DB_NAME"];
+  const required = ["DB_HOST", "DB_USER", "DB_NAME", "JWT_SECRET"];
   const missing = required.filter((key) => !process.env[key]);
 
   if (missing.length > 0) {
     throw new Error(
       `Missing required environment variables: ${missing.join(", ")}`
     );
-  }
-};
+  } };
 
 validateConfig();
 
@@ -48,6 +51,12 @@ const config: Config = {
       process.env.ADJUTOR_API_URL ||
       "https://adjutor.lendsqr.com/v2/verification/karma",
   },
+
+  jwt: {
+    secret: process.env.JWT_SECRET!,
+    expiresIn: process.env.JWT_EXPIRES_IN || "1d",
+}
 };
+
 
 export default config;
