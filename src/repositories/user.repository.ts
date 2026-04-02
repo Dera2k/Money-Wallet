@@ -7,7 +7,7 @@ export class UserRepository {
 
   async create(
     userData: {
-      id: string;
+      id?: string;
       email: string;
       first_name: string;
       last_name: string;
