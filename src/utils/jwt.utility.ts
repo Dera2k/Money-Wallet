@@ -7,13 +7,12 @@ export interface JwtPayload {
 }
 
 export const generateToken = (payload: JwtPayload): string => {
-  const options: SignOptions = {
+  return jwt.sign(payload, config.jwt.secret, {
     expiresIn: config.jwt.expiresIn,
-  };
-
-  return jwt.sign(payload, config.jwt.secret as Secret, options);
+  });
 };
 
 export const verifyToken = (token: string): JwtPayload => {
-  return jwt.verify(token, config.jwt.secret as Secret) as JwtPayload;
+  const decoded = jwt.verify(token, config.jwt.secret);
+  return decoded as JwtPayload;
 };
